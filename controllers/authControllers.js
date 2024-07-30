@@ -60,11 +60,29 @@ const verifyOTP = async (req, res) => {
 };
 
 const loginFunction = async (req, res) => {
-    res.send("login route");
+    try {
+        const { phoneNumber, password } = req.body;
+
+        const auth = await Auth.findOne({ phoneNumber });
+        if (!auth) return res.status(404).send("Foydalanuvchi topilmadi");
+
+        const isMatch = await bcrypt.compare(password, auth.password);
+        if (!isMatch) return res.status(400).send("Parol xato");
+
+        generateToken(auth, res);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
 };
 
 const logoutFunction = async (req, res) => {
-    res.send("logout route");
+    try {
+        res.status(200).cookie("token", "", { maxAge: 0 }).send("Muvaffaqiyatli xisobdan chiqildi");
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
 };
 
 module.exports = {
