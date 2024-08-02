@@ -7,4 +7,5 @@ module.exports = function (app) {
     app.get("/", (req, res) => res.send("hello world!"));
     app.use("/api/auth", require('../routes/authRoutes'));
     app.use("/api/messages", require('../routes/messageRoutes'));
+    app.use("/api/users", require('../routes/userRoutes'));
 }
