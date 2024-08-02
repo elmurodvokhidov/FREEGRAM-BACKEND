@@ -1,43 +1,43 @@
 # FREEGRAM BACKEND
 
-FREEGRAM BACKEND is a robust backend solution designed for the FREEGRAM application. This repository provides the server-side logic and API endpoints necessary for the application's functionality. 
+FREEGRAM BACKEND – FREEGRAM ilovasi uchun mo'ljallangan kuchli backend yechimidir. Ushbu repozitoriya ilovaning funktsiyalarini qo'llab-quvvatlaydigan server tomonidagi mantiq va API endpointlarini taqdim etadi.
 
-## Features
+## Xususiyatlar
 
-- **User Authentication**: Secure login and registration functionality using JWT.
-- **Post Management**: Create, read, update, and delete posts.
-- **User Profiles**: Manage user profiles and follow/unfollow other users.
-- **Comments and Likes**: Add comments and likes to posts.
-- **Real-time Updates**: Support for real-time updates on posts and notifications.
+- **Foydalanuvchi Tashkiliyati**: JWT yordamida xavfsiz kirish va ro'yxatdan o'tish funksiyalari.
+- **Postlarni Boshqarish**: Postlarni yaratish, o'qish, yangilash va o'chirish.
+- **Foydalanuvchi Profilini Boshqarish**: Foydalanuvchi profillarini boshqarish va boshqalarni kuzatish/izlash.
+- **Izohlar va Yoqtirishlar**: Postlarga izohlar qo'shish va yoqtirishlar.
+- **Haqiqiy Vaqt Yangilanishlari**: Postlar va bildirishnomalarda haqiqiy vaqt yangilanishlarini qo'llab-quvvatlash.
 
-## Getting Started
+## Ishga Tushirish
 
-### Prerequisites
+### Talablar
 
-- Node.js (v14.x or higher)
-- MongoDB (local or cloud instance)
+- Node.js (v14.x yoki yuqori)
+- MongoDB (mahalliy yoki bulutdagi versiya)
 
-### Installation
+### O'rnatish
 
-1. Clone the repository:
+1. Repozitoriyani klonlash:
 
    ```bash
    git clone https://github.com/elmurodvokhidov/FREEGRAM-BACKEND.git
    ```
 
-2. Navigate into the project directory:
+2. Loyihalar katalogiga o'tish:
 
    ```bash
    cd FREEGRAM-BACKEND
    ```
 
-3. Install the required dependencies:
+3. Kerakli bog'liqliklarni o'rnatish:
 
    ```bash
    npm install
    ```
 
-4. Create a `.env` file in the root directory and add your environment variables:
+4. Loyihaning ildiz katalogida `.env` faylini yarating va atrof-muhit o'zgaruvchilarini qo'shing:
 
    ```bash
    MONGO_URI=your_mongodb_connection_string
@@ -45,38 +45,38 @@ FREEGRAM BACKEND is a robust backend solution designed for the FREEGRAM applicat
    PORT=your_preferred_port
    ```
 
-5. Start the server:
+5. Serverni ishga tushiring:
 
    ```bash
    npm start
    ```
 
-   The server will start on the port specified in your `.env` file (default is `3000`).
+   Server sizning `.env` faylingizda ko'rsatilgan portda (standart `3000`) ishga tushadi.
 
 ## API Endpoints
 
-- **POST /api/auth/register**: Register a new user.
-- **POST /api/auth/login**: Authenticate a user and return a JWT token.
-- **GET /api/posts**: Retrieve all posts.
-- **POST /api/posts**: Create a new post.
-- **GET /api/posts/:id**: Retrieve a specific post by ID.
-- **PUT /api/posts/:id**: Update a specific post by ID.
-- **DELETE /api/posts/:id**: Delete a specific post by ID.
-- **POST /api/posts/:id/like**: Like a specific post.
-- **POST /api/posts/:id/comment**: Add a comment to a specific post.
-- **GET /api/users/:id**: Retrieve a user's profile by ID.
-- **PUT /api/users/:id**: Update a user's profile by ID.
-- **POST /api/users/:id/follow**: Follow a user.
-- **POST /api/users/:id/unfollow**: Unfollow a user.
+- **POST /api/auth/register**: Yangi foydalanuvchini ro'yxatdan o'tkazish.
+- **POST /api/auth/login**: Foydalanuvchini autentifikatsiya qilish va JWT token qaytarish.
+- **GET /api/posts**: Barcha postlarni olish.
+- **POST /api/posts**: Yangi post yaratish.
+- **GET /api/posts/:id**: Ma'lum bir postni ID bo'yicha olish.
+- **PUT /api/posts/:id**: Ma'lum bir postni ID bo'yicha yangilash.
+- **DELETE /api/posts/:id**: Ma'lum bir postni ID bo'yicha o'chirish.
+- **POST /api/posts/:id/like**: Ma'lum bir postni yoqtirish.
+- **POST /api/posts/:id/comment**: Ma'lum bir postga izoh qo'shish.
+- **GET /api/users/:id**: Ma'lum bir foydalanuvchi profilini ID bo'yicha olish.
+- **PUT /api/users/:id**: Ma'lum bir foydalanuvchi profilini ID bo'yicha yangilash.
+- **POST /api/users/:id/follow**: Foydalanuvchini kuzatish.
+- **POST /api/users/:id/unfollow**: Foydalanuvchini kuzatishni to'xtatish.
 
-## Contributing
+## Hissa Qo'shish
 
-Contributions are welcome! Please fork the repository and submit a pull request with your changes. Make sure to follow the coding standards and write clear commit messages.
+Hissa qo'shishlar xush kelibsiz! Iltimos, repozitoriyani forking qiling va o'zgarishlaringiz bilan pull request yuboring. Kodlash standartlariga rioya qiling va aniq commit xabarlari yozing.
 
-## License
+## Litsenziya
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Ushbu loyiha MIT Litsenziyasi asosida litsenziyalangan - batafsil ma'lumot uchun [LICENSE](LICENSE) faylini ko'rib chiqing.
 
-## Contact
+## Aloqa
 
-For any inquiries or issues, please contact [elmurodvokhidov@gmail.com](mailto:elmurodvokhidov@gmail.com).
+Har qanday savollar yoki muammolar uchun [elmurodvokhidov@gmail.com](mailto:elmurodvokhidov@gmail.com) elektron pochta manziliga murojaat qiling.
