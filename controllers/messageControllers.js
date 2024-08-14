@@ -1,5 +1,6 @@
 const Message = require('../models/message');
 const Conversation = require('../models/conversation');
+const { io, checkUserIsActive } = require('../config/socket');
 
 const sendMessage = async (req, res) => {
     try {
@@ -31,6 +32,10 @@ const sendMessage = async (req, res) => {
 
         // todo: Barcha o'zgarishlar Database'ga saqlanadi
         await Promise.all([conversation.save(), newMessage.save()]);
+        await newMessage.populate('sender receiver');
+
+        const activeUserSocketId = checkUserIsActive(receiver);
+        if (activeUserSocketId) io.to(activeUserSocketId).emit("getNewMessage", newMessage);
 
         // todo: Eng so'nggida chaqiruvchiga yangi xabar qaytarib beriladi
         res.status(201).json(newMessage);
@@ -50,14 +55,10 @@ const getMessages = async (req, res) => {
         // todo: Izlab topilgan xabarlarni populate qilish
         const conversation = await Conversation.findOne({
             participants: { $all: [sender, receiver] }
-        }).populate([{
+        }).populate({
             path: "messages",
-            model: "Message",
-            populate: [
-                { path: "sender", model: "Auth" },
-                { path: "receiver", model: "Auth" }
-            ]
-        }]);
+            populate: ["sender", "receiver"]
+        });
         if (!conversation) return res.status(200).send([]);
 
         // todo: Yakunda chaqiruvchiga topilgan xabarlarni qaytarish
