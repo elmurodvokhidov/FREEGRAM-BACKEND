@@ -101,6 +101,21 @@ const getCurrentAuth = async (req, res) => {
     }
 }
 
+const updateAuth = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { fullname, bio } = req.body;
+
+        const updatedAuth = await Auth.findByIdAndUpdate(id, { fullname, bio }, { new: true });
+        if (!updatedAuth) return res.status(404).send("Foydalanuvchi topilmadi");
+
+        res.status(200).send(updatedAuth);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+}
+
 const logoutFunction = async (req, res) => {
     try {
         res.cookie("token", "", { maxAge: 0 });
@@ -118,4 +133,5 @@ module.exports = {
     logoutFunction,
     getCurrentAuth,
     resetRegistration,
+    updateAuth,
 }
