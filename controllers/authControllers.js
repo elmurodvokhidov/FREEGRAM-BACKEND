@@ -43,7 +43,7 @@ const resetRegistration = async (req, res) => {
         console.log(error);
         res.status(500).send(error);
     }
-}
+};
 
 const verifyOTP = async (req, res) => {
     try {
@@ -99,7 +99,7 @@ const getCurrentAuth = async (req, res) => {
         console.log(error);
         res.status(500).send(error);
     }
-}
+};
 
 const updateAuth = async (req, res) => {
     try {
@@ -114,7 +114,21 @@ const updateAuth = async (req, res) => {
         console.log(error);
         res.status(500).send(error);
     }
-}
+};
+
+const updatePrivacy = async (req, res) => {
+    try {
+        const { privacy } = req.body;
+
+        const updatedUser = await Auth.findByIdAndUpdate(req.auth, { privacy }, { new: true });
+        if (!updatedUser) return res.status(404).send('Foydalanuvchi topilmadi');
+
+        res.status(200).json({ message: "Muvaffaqiyatli o'rnatildi.", data: updatedUser });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Serverda xatolik yuz berdi');
+    }
+};
 
 const logoutFunction = async (req, res) => {
     try {
@@ -134,4 +148,5 @@ module.exports = {
     getCurrentAuth,
     resetRegistration,
     updateAuth,
+    updatePrivacy,
 }
