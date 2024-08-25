@@ -35,7 +35,7 @@ const sendMessage = async (req, res) => {
         await newMessage.populate('sender receiver');
 
         const activeUserSocketId = checkUserIsActive(receiver);
-        if (activeUserSocketId) io.to(activeUserSocketId).emit("getNewMessage", newMessage);
+        if (activeUserSocketId) io.to(activeUserSocketId).emit("getNewMessage", { newMessage, sender });
 
         // todo: Eng so'nggida chaqiruvchiga yangi xabar qaytarib beriladi
         res.status(201).json(newMessage);
@@ -67,9 +67,42 @@ const getMessages = async (req, res) => {
         console.log(error);
         res.status(500).send(error);
     }
-}
+};
+
+const deleteMessage = async (req, res) => {
+    try {
+        const { messageId } = req.params;
+        const deleter = req.auth;
+
+        const message = await Message.findById(messageId).populate('sender receiver');
+        if (!message) return res.status(404).json({ error: "Xabar topilmadi." });
+
+        const sender = message.sender._id;
+        const receiver = message.receiver._id;
+
+        if ((sender.toString() !== deleter.toString()) && (receiver.toString() !== deleter.toString())) {
+            return res.status(403).json({ message: 'Sizga buni qilish taqiqlanadi!' });
+        }
+
+        await Message.findByIdAndDelete(messageId);
+        await Conversation.updateMany(
+            { messages: messageId },
+            { $pull: { messages: messageId } }
+        );
+
+        const partner = (sender.toString() === deleter.toString()) ? receiver : sender;
+        const activeUserSocketId = checkUserIsActive(partner);
+        if (activeUserSocketId) io.to(activeUserSocketId).emit("messageDeleted", { messageId, sender, receiver });
+
+        return res.status(200).json({ message: "Xabar o'chirildi." });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+};
 
 module.exports = {
     sendMessage,
     getMessages,
+    deleteMessage,
 }

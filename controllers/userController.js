@@ -1,5 +1,7 @@
+const { io, checkUserIsActive } = require("../config/socket");
 const Auth = require("../models/authModel");
 const Conversation = require("../models/conversation");
+const Message = require("../models/message");
 
 const getUsers = async (req, res) => {
     try {
@@ -40,6 +42,37 @@ const getUsers = async (req, res) => {
     }
 }
 
+const deleteUser = async (req, res) => {
+    try {
+        const { receiverId } = req.params;
+        const senderId = req.auth;
+
+        // Faqatgina ikki kishi o'rtasidagi xabarlarni o'chirish
+        await Message.deleteMany({
+            $or: [
+                { sender: senderId, receiver: receiverId },
+                { sender: receiverId, receiver: senderId }
+            ]
+        });
+
+        // Faqatgina ikki kishi o'rtasidagi suhbatlarni o'chirish
+        await Conversation.deleteMany({
+            participants: { $all: [senderId, receiverId], $size: 2 }
+        });
+
+        const activeUserSocketIdReceiver = checkUserIsActive(receiverId);
+        if (activeUserSocketIdReceiver) {
+            io.to(activeUserSocketIdReceiver).emit("conversationDeleted", senderId);
+        }
+
+        res.status(200).send("Muvaffaqiyatli o'chirildi.");
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+}
+
 module.exports = {
     getUsers,
+    deleteUser,
 }

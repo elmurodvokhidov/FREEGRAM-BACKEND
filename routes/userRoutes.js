@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { getUsers } = require('../controllers/userController');
+const { getUsers, deleteUser } = require('../controllers/userController');
 const authentication = require('../middleware/authentication');
 
 router.get("/", authentication, getUsers);
+router.delete("/:receiverId", authentication, deleteUser);
 
 module.exports = router;
